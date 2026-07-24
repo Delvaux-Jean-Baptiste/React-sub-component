@@ -1,0 +1,48 @@
+name: Tests automatiques
+
+on:
+  # executed when commit reach main
+  push:
+    branches:
+      - main
+
+  # to trigger when pull request is done
+  pull_request:
+    branches:
+      - main
+
+  # can be trigger manually
+  workflow_dispatch:
+
+jobs:
+  tests:
+    name: Vitest
+    runs-on: ubuntu-latest
+
+    timeout-minutes: 10
+
+    steps:
+      - name: Query Codes
+        uses: actions/checkout@v4
+        with:
+          submodules: recursive
+          
+      - name: check queried files temporary
+        run: |
+          echo "Project structure :"
+          find . -maxdepth 4 -type f | sort
+          
+          echo "Submodules states :"
+          git submodule status
+
+      - name: install Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: run testing
+        run: npm run test:ci
