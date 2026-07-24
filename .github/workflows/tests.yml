@@ -27,7 +27,7 @@ jobs:
         with:
           submodules: recursive
           
-      - name: check queried files
+      - name: check queried files temporary
         run: |
           echo "Project structure :"
           find . -maxdepth 4 -type f | sort
