@@ -24,6 +24,16 @@ jobs:
     steps:
       - name: Query Codes
         uses: actions/checkout@v4
+        with:
+          submodules: recursive
+          
+      - name: check queried files
+        run: |
+          echo "Project structure :"
+          find . -maxdepth 4 -type f | sort
+          
+          echo "Submodules states :"
+          git submodule status
 
       - name: install Node.js
         uses: actions/setup-node@v4
